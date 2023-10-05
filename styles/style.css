@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #0369a1;
+  font-size: 8rem;
+}
+
+.gameboard {
+  /* border: 1px solid red; */
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  justify-content: center;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-bottom {
+  border-right: 3px solid #0369a1;
+  border-bottom: 3px solid #0369a1;
+}
+
+.no-right {
+  border-bottom: 3px solid #0369a1;
+}
+
+.no-bottom {
+  border-right: 3px solid #0369a1;
+}
