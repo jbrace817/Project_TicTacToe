@@ -13,13 +13,6 @@ const gameBoard = (function () {
       });
     }
   };
-  //   const resetBoard = () => {
-  //     for (let i = 0; i < boxes.length; i++) {
-  //       const box = boxes[i];
-  //       box.innerHTML = "";
-  //     }
-  //   };
-
   return { boxes, markBox };
 })();
 
