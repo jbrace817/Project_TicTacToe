@@ -7,12 +7,24 @@ const gameBoard = (function () {
   const markBox = () => {
     for (let i = 0; i < boxes.length; i++) {
       const box = boxes[i];
-      box.addEventListener("click", (e) => {
-        box.innerHTML = playerTurns.switchPlayer();
-        checkForWinner.checkWinner();
+      box.addEventListener("click", () => {
+        if (!checkForWinner.checkWinner()) {
+          box.innerHTML = playerTurns.switchPlayer();
+          console.log(checkForWinner.checkWinner());
+        } else {
+          //   box.innerHTML = "";
+          console.log(checkForWinner.checkWinner());
+        }
       });
     }
   };
+  const listener = () => {
+    box.addEventListener("click", (e) => {
+      e.innerHTML = playerTurns.switchPlayer();
+      console.log(checkForWinner.checkWinner());
+    });
+  };
+
   return { boxes, markBox };
 })();
 
@@ -34,6 +46,7 @@ const playerTurns = (function () {
 
 const checkForWinner = (function () {
   const checkWinner = () => {
+    winner = false;
     const [box1, box2, box3, box4, box5, box6, box7, box8, box9] =
       gameBoard.boxes;
     const winBoxes = [
@@ -52,11 +65,15 @@ const checkForWinner = (function () {
       const allO = winArray.every((value) => value.innerHTML === "O");
       if (allX) {
         console.log("Player 1 Wins!");
+        return true;
       }
       if (allO) {
         console.log("Player 2 Wins!");
+        return true;
       }
     }
+
+    return false;
   };
   return { checkWinner };
 })();
