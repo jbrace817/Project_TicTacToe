@@ -4,19 +4,76 @@
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   height: 100vh;
+
+  justify-items: center;
+  align-items: center;
   color: #ffffff;
   font-size: 8rem;
   background: linear-gradient(-135deg, #1895bb, #0d6994, #0d4a74, #092953);
 }
 
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 90%;
+  height: 90%;
+}
+
+.player {
+  border: 1px solid #bac1c2;
+  background-color: hsla(187, 6%, 75%, 0.1);
+  display: flex;
+  justify-content: space-around;
+  width: 150px; /*problem with mobile view along with other widths*/
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  /* border: 1px solid lime; */
+}
+
+.playerName {
+  font-size: 1rem;
+}
+
+.title {
+  font-size: 1rem;
+}
+
+.wins {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  /* border: 1px solid lime; */
+}
+
+.marker {
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, #0d6994, #ffffff, #0d6994);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 .gameboard {
-  /* border: 1px solid red; */
-  width: 500px;
-  height: 500px;
+  width: 500px; /*problem with mobile view along with other widths*/
+  height: 500px; /*problem with mobile view along with other widths*/
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   justify-content: center;
@@ -29,18 +86,16 @@ body {
   justify-content: center;
   align-items: center;
   background: linear-gradient(to top, #0d6994, #ffffff, #0d6994);
-  /* -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
+
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
 .left-bottom {
-
-  border-bottom: 5px solid transparent; 
-  border-right: 5px solid transparent; 
-  border-image: linear-gradient(to bottom right, transparent 50%, #fff) 2; /
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-image: linear-gradient(to bottom right, transparent 50%, #fff) 2;
 }
 
 .center {
@@ -49,25 +104,84 @@ body {
 }
 
 .left-center {
-  border-bottom: 5px solid transparent; 
-  border-right: 5px solid transparent; 
-  border-image: linear-gradient(to right, transparent 1%, #fff) 2; /
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-image: linear-gradient(to right, transparent 1%, #fff) 2;
 }
 
-.bottom-row{
-  border-right: 5px solid transparent; 
-  border-image: linear-gradient(to top, transparent 1%, #fff) 2; /
+.bottom-row {
+  border-right: 5px solid transparent;
+  border-image: linear-gradient(to top, transparent 1%, #fff) 2;
 }
-.top-row{
-  border-bottom: 5px solid transparent; 
-  border-right: 5px solid transparent; 
-  border-image: linear-gradient(to bottom, transparent 1%, #fff) 2; /
+.top-row {
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-image: linear-gradient(to bottom, transparent 1%, #fff) 2;
 }
 
 .no-right {
-  border-bottom: 5px solid transparent; 
-  
-  border-image: linear-gradient(to left, transparent 1%, #fff) 2; /
+  border-bottom: 5px solid transparent;
+
+  border-image: linear-gradient(to left, transparent 1%, #fff) 2;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+  width: 500px; /*problem with mobile view along with other widths*/
+  height: 90%;
+}
 
+.reset {
+  position: relative;
+  display: inline-block;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  text-align: center;
+  padding: 5px;
+  background-color: hsla(187, 6%, 75%, 0.1);
+}
+
+/*ToolTip*/
+.tooltip-txt {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  width: 100px;
+  color: white;
+  background-color: #092953;
+  padding: 5px;
+  font-size: 1rem;
+  bottom: -100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.reset:hover .tooltip-txt {
+  visibility: visible;
+}
+
+/*ToolTip Arrow*/
+.tooltip-txt::after {
+  content: "";
+  position: absolute;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #092953 transparent transparent transparent;
+}
+
+.ttBottom::after {
+  bottom: 28px;
+  left: 50%;
+  transform: rotate(180deg);
+}
+
+img {
+  width: 50px;
+}
