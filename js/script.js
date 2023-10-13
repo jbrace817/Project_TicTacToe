@@ -11,9 +11,6 @@ const gameBoard = (function () {
         if (!checkForWinner.checkWinner()) {
           box.innerHTML = playerTurns.switchPlayers();
           console.log(checkForWinner.checkWinner());
-        } else {
-          //   box.innerHTML = "";
-          console.log(checkForWinner.checkWinner());
         }
       });
     }
@@ -34,17 +31,19 @@ const playerTurns = (function () {
   let currentPlayer = player2;
 
   btn_O.addEventListener("click", () => {
-    toggleClassActive();
+    p1ToggleMarker();
     whoIsPlayer1();
   });
   btn_X.addEventListener("click", () => {
-    toggleClassActive();
+    p1ToggleMarker();
     whoIsPlayer1();
   });
 
   const whoIsPlayer1 = () => {
     const x = player(btn_X.innerHTML);
     const o = player(btn_O.innerHTML);
+    /**@type {HTMLElement} */
+
     if (btn_X.classList.contains("active")) {
       player1 = x;
       player2 = o;
@@ -59,20 +58,29 @@ const playerTurns = (function () {
     return player1;
   };
 
-  const toggleClassActive = () => {
+  const p1ToggleMarker = () => {
     btn_X.classList.toggle("active");
     div_X.classList.toggle("active");
     btn_O.classList.toggle("active");
     div_O.classList.toggle("active");
   };
 
+  //Active Player Indicator
+  const playerIndicator = () => {
+    const indicator = document.querySelectorAll(".player");
+    indicator[0].classList.toggle("active");
+    indicator[1].classList.toggle("active");
+  };
+
   const switchPlayers = () => {
     whoIsPlayer1();
     if (currentPlayer === player1) {
       currentPlayer = player2;
+      playerIndicator();
       return currentPlayer;
     } else {
       currentPlayer = player1;
+      playerIndicator();
       return currentPlayer;
     }
   };
@@ -107,6 +115,7 @@ const checkForWinner = (function () {
         }
         if (allO) {
           console.log("Player 2 Wins");
+          return true;
         }
       }
       if (playerTurns.getPlayer1() === "O") {
@@ -116,6 +125,7 @@ const checkForWinner = (function () {
         }
         if (allX) {
           console.log("Player 2 Wins");
+          return true;
         }
       }
     }

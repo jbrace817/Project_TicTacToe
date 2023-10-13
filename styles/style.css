@@ -32,10 +32,15 @@ body {
   width: 150px; /*problem with mobile view along with other widths*/
   border-radius: 10px;
   padding: 5px;
+  /* border-bottom-width: 5px; */
 }
 
-.player:last-of-type {
-  border-bottom-width: 3px;
+.p1 {
+  background-color: #092953;
+}
+
+.player.active {
+  border-bottom-width: 5px;
   border-bottom-style: solid;
   border-bottom-color: #3bf4eb;
 }
@@ -72,11 +77,12 @@ body {
   display: flex;
   height: fit-content;
 }
-.div-left.active {
+.div-left.active,
+.btn-left.active {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   border-color: #5d6161;
-  background-color: #0d4a74;
+  background-color: #092953;
 }
 
 .div-right {
@@ -84,11 +90,12 @@ body {
   height: fit-content;
 }
 
-.div-right.active {
+.div-right.active,
+.btn-right.active {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   border-color: #5d6161;
-  background-color: #0d4a74;
+  background-color: #092953;
 }
 
 .btn-left,
