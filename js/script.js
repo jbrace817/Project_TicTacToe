@@ -9,7 +9,7 @@ const gameBoard = (function () {
       const box = boxes[i];
       box.addEventListener("click", () => {
         if (!checkForWinner.checkWinner()) {
-          box.innerHTML = playerTurns.switchPlayer();
+          box.innerHTML = playerTurns.switchPlayers();
           console.log(checkForWinner.checkWinner());
         } else {
           //   box.innerHTML = "";
@@ -18,21 +18,56 @@ const gameBoard = (function () {
       });
     }
   };
-  const listener = () => {
-    box.addEventListener("click", (e) => {
-      e.innerHTML = playerTurns.switchPlayer();
-      console.log(checkForWinner.checkWinner());
-    });
-  };
 
   return { boxes, markBox };
 })();
 
 const playerTurns = (function () {
-  const player1 = player("X");
-  const player2 = player("O");
+  const div_X = document.querySelector(".div-left");
+  const div_O = document.querySelector(".div-right");
+  const btn_X = document.querySelector(".btn-left");
+  const btn_O = document.querySelector(".btn-right");
+
+  // let player1 = player("X");
+  let player1 = "";
+  let player2 = "";
   let currentPlayer = player2;
-  const switchPlayer = () => {
+
+  btn_O.addEventListener("click", () => {
+    toggleClassActive();
+    whoIsPlayer1();
+  });
+  btn_X.addEventListener("click", () => {
+    toggleClassActive();
+    whoIsPlayer1();
+  });
+
+  const whoIsPlayer1 = () => {
+    const x = player(btn_X.innerHTML);
+    const o = player(btn_O.innerHTML);
+    if (btn_X.classList.contains("active")) {
+      player1 = x;
+      player2 = o;
+    } else {
+      player1 = o;
+      player2 = x;
+    }
+    console.log(`player1: ${player1}`);
+  };
+
+  const getPlayer1 = () => {
+    return player1;
+  };
+
+  const toggleClassActive = () => {
+    btn_X.classList.toggle("active");
+    div_X.classList.toggle("active");
+    btn_O.classList.toggle("active");
+    div_O.classList.toggle("active");
+  };
+
+  const switchPlayers = () => {
+    whoIsPlayer1();
     if (currentPlayer === player1) {
       currentPlayer = player2;
       return currentPlayer;
@@ -41,7 +76,8 @@ const playerTurns = (function () {
       return currentPlayer;
     }
   };
-  return { switchPlayer };
+
+  return { switchPlayers, getPlayer1 };
 })();
 
 const checkForWinner = (function () {
@@ -63,18 +99,30 @@ const checkForWinner = (function () {
       const winArray = winBoxes[i];
       const allX = winArray.every((value) => value.innerHTML === "X");
       const allO = winArray.every((value) => value.innerHTML === "O");
-      if (allX) {
-        console.log("Player 1 Wins!");
-        return true;
+
+      if (playerTurns.getPlayer1() === "X") {
+        if (allX) {
+          console.log("Player 1 Wins!");
+          return true;
+        }
+        if (allO) {
+          console.log("Player 2 Wins");
+        }
       }
-      if (allO) {
-        console.log("Player 2 Wins!");
-        return true;
+      if (playerTurns.getPlayer1() === "O") {
+        if (allO) {
+          console.log("Player 1 Wins!");
+          return true;
+        }
+        if (allX) {
+          console.log("Player 2 Wins");
+        }
       }
     }
-
+    // console.log(playerTurns.getPlayer1());
     return false;
   };
+
   return { checkWinner };
 })();
 

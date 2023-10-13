@@ -19,19 +19,25 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  /* border: 1px solid red; */
   width: 90%;
   height: 90%;
 }
 
 .player {
   border: 1px solid #bac1c2;
-  background-color: hsla(187, 6%, 75%, 0.1);
+  background-color: hsla(187, 6%, 75%, 0.102);
   display: flex;
   justify-content: space-around;
   width: 150px; /*problem with mobile view along with other widths*/
   border-radius: 10px;
   padding: 5px;
+}
+
+.player:last-of-type {
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  border-bottom-color: #3bf4eb;
 }
 
 .avatar {
@@ -47,10 +53,6 @@ body {
   font-size: 1rem;
 }
 
-.title {
-  font-size: 1rem;
-}
-
 .wins {
   display: flex;
   flex-direction: column;
@@ -60,15 +62,58 @@ body {
   /* border: 1px solid lime; */
 }
 
-.marker {
-  font-size: 50px;
+.toggle-marker {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.div-left {
+  display: flex;
+  height: fit-content;
+}
+.div-left.active {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-color: #5d6161;
+  background-color: #0d4a74;
+}
+
+.div-right {
+  display: flex;
+  height: fit-content;
+}
+
+.div-right.active {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-color: #5d6161;
+  background-color: #0d4a74;
+}
+
+.btn-left,
+.btn-right {
+  font-size: 35px;
+  width: 150px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
   background: linear-gradient(to top, #0d6994, #ffffff, #0d6994);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  border-color: #bac1c2;
+  border-style: solid;
+}
+
+.btn-left {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.btn-right {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .gameboard {
