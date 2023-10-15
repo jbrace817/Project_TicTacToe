@@ -1,5 +1,5 @@
 function player(marker) {
-  return marker;
+  return { marker: marker };
 }
 
 const gameBoard = (function () {
@@ -40,16 +40,19 @@ const playerTurns = (function () {
   });
 
   const whoIsPlayer1 = () => {
-    const x = player(btn_X.innerHTML);
-    const o = player(btn_O.innerHTML);
-    /**@type {HTMLElement} */
-
+    const x = player(btn_X.firstElementChild.innerHTML);
+    const o = player(btn_O.firstElementChild.innerHTML);
+    const playerID = document.querySelectorAll(".btn-p");
     if (btn_X.classList.contains("active")) {
-      player1 = x;
-      player2 = o;
+      player1 = x.marker;
+      player2 = o.marker;
+      playerID[0].innerHTML = "P1";
+      playerID[1].innerHTML = "P2";
     } else {
-      player1 = o;
-      player2 = x;
+      player1 = o.marker;
+      player2 = x.marker;
+      playerID[1].innerHTML = "P1";
+      playerID[0].innerHTML = "P2";
     }
     console.log(`player1: ${player1}`);
   };

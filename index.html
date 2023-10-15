@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
     <title>TicTacToe</title>
   </head>
   <body>
     <div class="info">
       <div class="player p1 active">
         <div class="avatar">
-          <img src="/images/player1.png" alt="Avatar of player1" />
+          <img src="images/player1.png" alt="Avatar of player1" />
           <span class="playerName">Player1</span>
         </div>
 
@@ -19,17 +19,23 @@
       </div>
       <div class="toggle-marker">
         <div class="div-left active">
-          <button type="button" class="btn-left active">X</button>
+          <button type="button" class="btn-left active">
+            <p>X</p>
+            <p class="btn-p" style="font-size: 1rem">P1</p>
+          </button>
         </div>
         <div class="div-right">
-          <button type="button" class="btn-right">O</button>
+          <button type="button" class="btn-right">
+            <p>O</p>
+            <p class="btn-p" style="font-size: 1rem">P2</p>
+          </button>
         </div>
       </div>
       <div class="player">
         <div class="wins">0</div>
         <!-- <div class="marker">O</div> -->
         <div class="avatar">
-          <img src="/images/AI.png" alt="Avatar for AI" />
+          <img src="images/AI.png" alt="Avatar for AI" />
           <span class="playerName">A.I.</span>
         </div>
       </div>
@@ -62,6 +68,6 @@
         <span class="tooltip-txt ttBottom">Reset Game</span>
       </div>
     </div>
-    <script src="/js/script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
