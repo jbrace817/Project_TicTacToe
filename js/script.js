@@ -8,9 +8,17 @@ const gameBoard = (function () {
     for (let i = 0; i < boxes.length; i++) {
       const box = boxes[i];
       box.addEventListener("click", () => {
-        if (!checkForWinner.checkWinner()) {
+        // if (!checkForWinner.isWinner) {
+        //   box.innerHTML = playerTurns.switchPlayers();
+        //   checkForWinner.checkWinner();
+        //   console.log(checkForWinner.isWinner);
+        // } else {
+        // }
+        if (!checkForWinner.getIsWinner()) {
           box.innerHTML = playerTurns.switchPlayers();
-          console.log(checkForWinner.checkWinner());
+          checkForWinner.checkWinner();
+          console.log(checkForWinner.isWinner);
+        } else {
         }
       });
     }
@@ -51,8 +59,8 @@ const playerTurns = (function () {
     } else {
       player1 = o.marker;
       player2 = x.marker;
-      playerID[1].innerHTML = "P1";
       playerID[0].innerHTML = "P2";
+      playerID[1].innerHTML = "P1";
     }
     console.log(`player1: ${player1}`);
   };
@@ -92,8 +100,8 @@ const playerTurns = (function () {
 })();
 
 const checkForWinner = (function () {
+  let isWinner = false;
   const checkWinner = () => {
-    winner = false;
     const [box1, box2, box3, box4, box5, box6, box7, box8, box9] =
       gameBoard.boxes;
     const winBoxes = [
@@ -110,33 +118,59 @@ const checkForWinner = (function () {
       const winArray = winBoxes[i];
       const allX = winArray.every((value) => value.innerHTML === "X");
       const allO = winArray.every((value) => value.innerHTML === "O");
+      const p1 = document.querySelector(".p1Wins");
+      const p2 = document.querySelector(".p2Wins");
 
       if (playerTurns.getPlayer1() === "X") {
-        if (allX) {
+        if (allX && !isWinner) {
           console.log("Player 1 Wins!");
-          return true;
+          numberOfWins.addWin(p1);
+          // checkForWinner.isWinner = true;
+          isWinner = true;
         }
-        if (allO) {
+        if (allO && !isWinner) {
           console.log("Player 2 Wins");
-          return true;
+          // checkForWinner.isWinner = true;
         }
       }
       if (playerTurns.getPlayer1() === "O") {
-        if (allO) {
+        if (allO && !isWinner) {
           console.log("Player 1 Wins!");
-          return true;
+          // checkForWinner.isWinner = true;
         }
-        if (allX) {
+        if (allX && !isWinner) {
           console.log("Player 2 Wins");
-          return true;
+          // checkForWinner.isWinner = true;
         }
       }
     }
-    // console.log(playerTurns.getPlayer1());
-    return false;
   };
 
-  return { checkWinner };
+  const getIsWinner = () => {
+    return isWinner;
+  };
+  const resetWinner = () => {
+    isWinner = false;
+  };
+
+  return { checkWinner, getIsWinner, resetWinner };
+})();
+
+const numberOfWins = (function () {
+  const addWin = (player) => {
+    // const p1 = document.querySelector(".p1Wins");
+    // const p2 = document.querySelector(".p2Wins");
+    if (player) {
+      let currentWins = Number(player.innerHTML);
+      player.innerHTML = currentWins + 1;
+      return;
+    }
+    // if (player == "player2") {
+    //   let currentWins = Number(p2.innerHTML);
+    //   p2.innerHTML = currentWins += 1;
+    // }
+  };
+  return { addWin };
 })();
 
 const resetGame = (function () {
@@ -147,9 +181,11 @@ const resetGame = (function () {
       const box = boxes[i];
       box.innerHTML = "";
     }
-    btn_resetBoard.addEventListener("click", resetBoard);
+    // checkForWinner.isWinner = false;
+    // console.log(checkForWinner.isWinner);
+    // checkForWinner.resetWinner();
   };
-  resetBoard();
+  btn_resetBoard.addEventListener("click", resetBoard);
 })();
 
 const displayController = (function () {

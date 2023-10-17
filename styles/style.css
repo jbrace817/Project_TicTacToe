@@ -40,9 +40,10 @@ body {
 }
 
 .player.active {
-  border-bottom-width: 5px;
+  /* border-bottom-width: 5px;
   border-bottom-style: solid;
-  border-bottom-color: #3bf4eb;
+  border-bottom-color: #3bf4eb; */
+  border: 5px solid #3bf4eb;
 }
 
 .avatar {
@@ -54,11 +55,13 @@ body {
   /* border: 1px solid lime; */
 }
 
-.playerName {
+.player1Name,
+.player2Name {
   font-size: 1rem;
 }
 
-.wins {
+.p1Wins,
+.p2Wins {
   display: flex;
   flex-direction: column;
   justify-content: center;
