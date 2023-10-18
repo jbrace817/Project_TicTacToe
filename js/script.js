@@ -108,6 +108,9 @@ const playerInfo = (function () {
 //Play Game
 const playGame = (function () {
   const activePlayer = document.querySelectorAll(".player");
+  const btn_whosFirst = document.querySelector(".whosFirst");
+  const p1Wins = document.querySelector(".p1Wins");
+  const p2Wins = document.querySelector(".p2Wins");
 
   const takeTurns = () => {
     let currentPlayer;
@@ -128,9 +131,27 @@ const playGame = (function () {
     activePlayer[1].classList.toggle("active");
   };
 
+  const whoGoesFirst = () => {
+    const flipCoin = document.getElementById("flipCoin");
+    flipCoin.classList.add("rotate");
+    setTimeout(() => {
+      flipCoin.classList.remove("rotate");
+    }, 1500);
+    const player1 = activePlayer[0];
+    const player2 = activePlayer[1];
+    const playerArray = [player1, player2];
+    let randomPlayer =
+      playerArray[Math.floor(Math.random() * playerArray.length)];
+    console.log(randomPlayer);
+    if (randomPlayer.classList.contains("active")) {
+    } else if (!checkForWinner.checkWinner()) {
+      turnIndicator();
+    }
+  };
+
   const addWins = () => {
-    const p1Wins = document.querySelector(".p1Wins");
-    const p2Wins = document.querySelector(".p2Wins");
+    // const p1Wins = document.querySelector(".p1Wins");
+    // const p2Wins = document.querySelector(".p2Wins");
     if (checkForWinner.checkWinner() === playerInfo.getPlayer1().name) {
       let currentWins = Number(p1Wins.innerHTML);
       p1Wins.innerHTML = ++currentWins;
@@ -140,6 +161,7 @@ const playGame = (function () {
     }
   };
 
+  btn_whosFirst.addEventListener("click", whoGoesFirst);
   return { takeTurns, addWins };
 })();
 
@@ -185,7 +207,7 @@ const checkForWinner = (function () {
 })();
 
 //Reset Game
-const resetGame = (function () {
+const gameReset = (function () {
   const btn_resetBoard = document.getElementById("resetBoard");
   //ClearBoard
   const resetBoard = () => {

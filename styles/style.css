@@ -182,14 +182,16 @@ body {
 
 .controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  /* border: 1px solid red; */
+  border: 1px solid red;
   width: 500px; /*problem with mobile view along with other widths*/
   height: 90%;
 }
 
-.reset {
+.clearBoard,
+.resetGame,
+.whosFirst {
   position: relative;
   display: inline-block;
 
@@ -217,7 +219,9 @@ body {
   transform: translate(-50%, 0);
 }
 
-.reset:hover .tooltip-txt {
+.clearBoard:hover .tooltip-txt,
+.resetGame:hover .tooltip-txt,
+.whosFirst:hover .tooltip-txt {
   visibility: visible;
 }
 
@@ -239,4 +243,21 @@ body {
 
 img {
   width: 50px;
+}
+
+.rotate {
+  animation: rotation 1.5s linear;
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(-1000deg);
+    -moz-transform: rotate(-1000deg);
+    transform: rotate(-1000deg);
+  }
 }
