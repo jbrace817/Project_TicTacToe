@@ -6,19 +6,19 @@ function player(marker, name) {
 //Gameboard interactivity
 const gameBoard = (function () {
   const boxes = document.querySelectorAll(".box");
-  const markBox = () => {
+  const draw = () => {
+    const arr = [];
     for (let i = 0; i < boxes.length; i++) {
       const box = boxes[i];
-      box.addEventListener("click", () => {
-        if (!checkForWinner.checkWinner()) {
-          box.innerHTML = playGame.takeTurns();
-          console.log(checkForWinner.checkWinner());
-          playGame.addWins();
-        }
-      });
+      if (box.innerHTML === "") {
+        arr.push(box);
+      }
+    }
+    if (arr.length === 0) {
+      console.log("Draw");
     }
   };
-  return { boxes, markBox };
+  return { boxes, draw };
 })();
 
 //Setup and retrieve player information
@@ -109,11 +109,10 @@ const playerInfo = (function () {
 const playGame = (function () {
   const activePlayer = document.querySelectorAll(".player");
   const btn_whosFirst = document.querySelector(".whosFirst");
-  const p1Wins = document.querySelector(".p1Wins");
-  const p2Wins = document.querySelector(".p2Wins");
 
   const takeTurns = () => {
     let currentPlayer;
+
     if (activePlayer[0].classList.contains("active")) {
       currentPlayer = playerInfo.getPlayer1().marker;
       turnIndicator();
@@ -124,7 +123,6 @@ const playGame = (function () {
       return currentPlayer;
     }
   };
-
   //Used to indicate who's turn it is.
   const turnIndicator = () => {
     activePlayer[0].classList.toggle("active");
@@ -149,20 +147,8 @@ const playGame = (function () {
     }
   };
 
-  const addWins = () => {
-    // const p1Wins = document.querySelector(".p1Wins");
-    // const p2Wins = document.querySelector(".p2Wins");
-    if (checkForWinner.checkWinner() === playerInfo.getPlayer1().name) {
-      let currentWins = Number(p1Wins.innerHTML);
-      p1Wins.innerHTML = ++currentWins;
-    } else if (checkForWinner.checkWinner() === playerInfo.getPlayer2().name) {
-      let currentWins = Number(p2Wins.innerHTML);
-      p2Wins.innerHTML = ++currentWins;
-    }
-  };
-
   btn_whosFirst.addEventListener("click", whoGoesFirst);
-  return { takeTurns, addWins };
+  return { takeTurns };
 })();
 
 //Check for winner.
@@ -206,10 +192,45 @@ const checkForWinner = (function () {
   return { checkWinner };
 })();
 
-//Reset Game
-const gameReset = (function () {
-  const btn_resetBoard = document.getElementById("resetBoard");
-  //ClearBoard
+//Display Controller
+const displayController = (function () {
+  const btn_resetBoard = document.querySelector(".clearBoard");
+  const btn_resetGame = document.querySelector(".resetGame");
+  const p1Wins = document.querySelector(".p1Wins");
+  const p2Wins = document.querySelector(".p2Wins");
+
+  const markBox = () => {
+    for (let i = 0; i < gameBoard.boxes.length; i++) {
+      const box = gameBoard.boxes[i];
+
+      box.addEventListener("click", () => {
+        if (
+          checkForWinner.checkWinner() === undefined &&
+          box.innerHTML === ""
+        ) {
+          box.innerHTML = playGame.takeTurns();
+          console.log(checkForWinner.checkWinner());
+          addWins();
+          if (checkForWinner.checkWinner() === undefined) {
+            gameBoard.draw();
+          }
+        } else {
+          console.log(checkForWinner.checkWinner());
+        }
+      });
+    }
+  };
+  const addWins = () => {
+    if (checkForWinner.checkWinner() === playerInfo.getPlayer1().name) {
+      let currentWins = Number(p1Wins.innerHTML);
+      p1Wins.innerHTML = ++currentWins;
+    } else if (checkForWinner.checkWinner() === playerInfo.getPlayer2().name) {
+      let currentWins = Number(p2Wins.innerHTML);
+      p2Wins.innerHTML = ++currentWins;
+    }
+  };
+
+  //Clears player markers on board
   const resetBoard = () => {
     const boxes = gameBoard.boxes;
     for (let i = 0; i < boxes.length; i++) {
@@ -217,10 +238,11 @@ const gameReset = (function () {
       box.innerHTML = "";
     }
   };
+  const resetWins = () => {
+    p1Wins.innerHTML = 0;
+    p2Wins.innerHTML = 0;
+  };
+  btn_resetGame.addEventListener("click", resetWins);
   btn_resetBoard.addEventListener("click", resetBoard);
-})();
-
-//Display Controller
-const displayController = (function () {
-  gameBoard.markBox();
+  markBox();
 })();
