@@ -7,6 +7,35 @@
     <title>TicTacToe</title>
   </head>
   <body>
+    <div class="modal">
+      <div class="first">
+        <h1>Number of players?</h1>
+        <div class="modal-btns1">
+          <button type="button">1 Player</button>
+          <button type="button">2 Players</button>
+        </div>
+      </div>
+      <div class="onePlayer">
+        <h1>A.I. Difficulty Level?</h1>
+        <select name="difficulty" id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="hard">Medium</option>
+          <option value="easy">Hard</option>
+          <option value="easy">Unbeatable</option>
+        </select>
+      </div>
+      <div class="twoPlayers">
+        <h1>Add Player Names</h1>
+        <form action="get" class="formNames">
+          <input type="text" class="player1" placeholder="Player 1's Name" />
+          <input type="text" class="player2" placeholder="Player 2's Name" />
+        </form>
+        <div class="modal-btns2">
+          <a href="#">Skip>></a>
+          <button type="button">Submit</button>
+        </div>
+      </div>
+    </div>
     <div class="info">
       <div class="player p1 active">
         <div class="avatar">
