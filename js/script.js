@@ -33,17 +33,52 @@ const playerInfo = (function () {
 
   let player1;
   let player2;
-  const playerSetup = () => {
-    if (btn_X.classList.contains("active")) {
-      player1 = player("X", getP1Name.innerHTML);
-      player2 = player("O", getP2Name.innerHTML);
+  // const playerSetup = () => {
+  //   if (btn_X.classList.contains("active")) {
+  //     player1 = player("X", getP1Name.innerHTML);
+  //     player2 = player("O", getP2Name.innerHTML);
+  //     // console.log(startup_modal.addNames().player1Val);
+  //     if (player1.name === "") {
+  //       player1.name = "P1";
+  //       getP1Name.innerHTML = player1.name;
+  //     }
+  //     if (player2.name === "") {
+  //       player2.name = "P2";
+  //       getP2Name.innerHTML = player2.name;
+  //     }
+  //     playerID[0].innerHTML = player1.name;
+  //     playerID[1].innerHTML = player2.name;
+  //   } else if (btn_O.classList.contains("active")) {
+  //     player1 = player("O", getP1Name.innerHTML);
+  //     player2 = player("X", getP2Name.innerHTML);
 
-      if (player1.name === "") {
+  //     if (player1.name === "") {
+  //       player1.name = "P1";
+  //       getP1Name.innerHTML = player1.name;
+  //     }
+  //     if (player2.name === "") {
+  //       player2.name = "P2";
+  //       getP2Name.innerHTML = player2.name;
+  //     }
+  //   }
+  //   console.log(player1);
+  // };
+
+  const playerSetup = (p1Name, p2Name) => {
+    if (btn_X.classList.contains("active")) {
+      player1 = player("X", p1Name);
+      player2 = player("O", p2Name);
+      // console.log(startup_modal.addNames().player1Val);
+      if (p1Name === "") {
         player1.name = "P1";
         getP1Name.innerHTML = player1.name;
+      } else {
+        getP1Name.innerHTML = player1.name;
       }
-      if (player2.name === "") {
+      if (p2Name === "") {
         player2.name = "P2";
+        getP2Name.innerHTML = player2.name;
+      } else {
         getP2Name.innerHTML = player2.name;
       }
       playerID[0].innerHTML = player1.name;
@@ -52,16 +87,21 @@ const playerInfo = (function () {
       player1 = player("O", getP1Name.innerHTML);
       player2 = player("X", getP2Name.innerHTML);
 
-      if (player1.name === "") {
+      if (p1Name === "") {
         player1.name = "P1";
+        getP1Name.innerHTML = p1Name;
+      } else {
         getP1Name.innerHTML = player1.name;
       }
-      if (player2.name === "") {
+      if (p2Name === "") {
         player2.name = "P2";
+        getP2Name.innerHTML = p2Name;
+      } else {
         getP2Name.innerHTML = player2.name;
       }
     }
     console.log(player1);
+    console.log(player2);
   };
 
   const p1ToggleMarker = () => {
@@ -94,15 +134,15 @@ const playerInfo = (function () {
 
   btn_O.addEventListener("click", () => {
     p1ToggleMarker();
-    playerSetup();
+    playerSetup(player1.name, player2.name);
     console.log(getPlayer2().marker);
   });
   btn_X.addEventListener("click", () => {
     p1ToggleMarker();
-    playerSetup();
+    playerSetup(player1.name, player2.name);
   });
-  playerSetup();
-  return { getPlayer1, getPlayer2 };
+  // playerSetup();
+  return { getPlayer1, getPlayer2, playerSetup };
 })();
 
 //Play Game
@@ -192,6 +232,73 @@ const checkForWinner = (function () {
   return { checkWinner };
 })();
 
+const startup_modal = (function () {
+  /**@type {HTMLElement} */
+  const modal = document.querySelector(".modal");
+  const firstQuestion = document.querySelector(".first");
+  const onePlayer_modal = document.querySelector(".onePlayer");
+  const twoPlayer_modal = document.querySelector(".twoPlayers");
+  const btn_onePlayer = document.getElementById("btn_onePlayer");
+  const btn_twoPlayer = document.getElementById("btn_twoPlayer");
+  const slt_difficulty = document.getElementById("difficulty");
+  //P1 Name
+  const input_player1 = document.querySelectorAll(".player1");
+  const input_player2 = document.querySelector(".player2");
+  const btn_submit = document.getElementById("submit");
+  const btn_skip = document.getElementById("skip");
+  //P2 Avatar
+  const p2Avatar = document.getElementById("p2Avatar");
+
+  const hideFQ = () => {
+    // modal.style.visibility = "hidden";
+    firstQuestion.style.visibility = "hidden";
+    onePlayer_modal.style.visibility = "hidden";
+  };
+
+  const one_Player = () => {
+    hideFQ();
+    onePlayer_modal.style.visibility = "visible";
+  };
+
+  const two_Players = () => {
+    const twoClicked = true;
+    hideFQ();
+    twoPlayer_modal.style.visibility = "visible";
+    return { twoClicked };
+  };
+
+  const difficulty = () => {
+    const p1 = input_player1[0].value;
+    onePlayer_modal.style.visibility = "hidden";
+    modal.style.visibility = "hidden";
+    playerInfo.playerSetup(p1, "A.I.");
+  };
+
+  const addNames = () => {
+    const p1 = input_player1[1].value;
+    const p2 = input_player2.value;
+    twoPlayer_modal.style.visibility = "hidden";
+    modal.style.visibility = "hidden";
+    p2Avatar.setAttribute("src", "../images/player2.png");
+    playerInfo.playerSetup(p1, p2);
+  };
+
+  const skip = () => {
+    if (two_Players().twoClicked) {
+      twoPlayer_modal.style.visibility = "hidden";
+      modal.style.visibility = "hidden";
+      addNames();
+    }
+  };
+
+  btn_onePlayer.addEventListener("click", one_Player);
+  btn_twoPlayer.addEventListener("click", two_Players);
+  slt_difficulty.addEventListener("change", difficulty);
+  btn_submit.addEventListener("click", addNames);
+  btn_skip.addEventListener("click", skip);
+  return { addNames };
+})();
+
 //Display Controller
 const displayController = (function () {
   const btn_resetBoard = document.querySelector(".clearBoard");
@@ -245,4 +352,5 @@ const displayController = (function () {
   btn_resetGame.addEventListener("click", resetWins);
   btn_resetBoard.addEventListener("click", resetBoard);
   markBox();
+  // startup_modal.hidden();
 })();

@@ -11,13 +11,18 @@
       <div class="first">
         <h1>Number of players?</h1>
         <div class="modal-btns1">
-          <button type="button">1 Player</button>
-          <button type="button">2 Players</button>
+          <button type="button" id="btn_onePlayer">1 Player</button>
+          <button type="button" id="btn_twoPlayer">2 Players</button>
         </div>
       </div>
       <div class="onePlayer">
-        <h1>A.I. Difficulty Level?</h1>
+        <h1>Name of P1? <br /></h1>
+        <form action="get" class="formNames">
+          <input type="text" class="player1" placeholder="Player 1's Name" />
+        </form>
+        <h1>Difficulty?</h1>
         <select name="difficulty" id="difficulty">
+          <option value="select">----Select----</option>
           <option value="easy">Easy</option>
           <option value="hard">Medium</option>
           <option value="easy">Hard</option>
@@ -31,8 +36,8 @@
           <input type="text" class="player2" placeholder="Player 2's Name" />
         </form>
         <div class="modal-btns2">
-          <a href="#">Skip>></a>
-          <button type="button">Submit</button>
+          <a href="#" id="skip">Skip>></a>
+          <button type="button" id="submit">Submit</button>
         </div>
       </div>
     </div>
@@ -40,7 +45,7 @@
       <div class="player p1 active">
         <div class="avatar">
           <img src="images/player1.png" alt="Avatar of player1" />
-          <span class="player1Name">test</span>
+          <span class="player1Name"></span>
         </div>
 
         <!-- <div class="marker">X</div> -->
@@ -64,7 +69,7 @@
         <div class="p2Wins">0</div>
         <!-- <div class="marker">O</div> -->
         <div class="avatar">
-          <img src="images/AI.png" alt="Avatar for AI" />
+          <img src="images/AI.png" alt="Avatar for player2" id="p2Avatar" />
           <span class="player2Name">A.I.</span>
         </div>
       </div>
