@@ -16,6 +16,7 @@ const gameBoard = (function () {
     }
     if (arr.length === 0) {
       console.log("Draw");
+      return true;
     }
   };
   return { boxes, draw };
@@ -33,36 +34,6 @@ const playerInfo = (function () {
 
   let player1;
   let player2;
-  // const playerSetup = () => {
-  //   if (btn_X.classList.contains("active")) {
-  //     player1 = player("X", getP1Name.innerHTML);
-  //     player2 = player("O", getP2Name.innerHTML);
-  //     // console.log(startup_modal.addNames().player1Val);
-  //     if (player1.name === "") {
-  //       player1.name = "P1";
-  //       getP1Name.innerHTML = player1.name;
-  //     }
-  //     if (player2.name === "") {
-  //       player2.name = "P2";
-  //       getP2Name.innerHTML = player2.name;
-  //     }
-  //     playerID[0].innerHTML = player1.name;
-  //     playerID[1].innerHTML = player2.name;
-  //   } else if (btn_O.classList.contains("active")) {
-  //     player1 = player("O", getP1Name.innerHTML);
-  //     player2 = player("X", getP2Name.innerHTML);
-
-  //     if (player1.name === "") {
-  //       player1.name = "P1";
-  //       getP1Name.innerHTML = player1.name;
-  //     }
-  //     if (player2.name === "") {
-  //       player2.name = "P2";
-  //       getP2Name.innerHTML = player2.name;
-  //     }
-  //   }
-  //   console.log(player1);
-  // };
 
   const playerSetup = (p1Name, p2Name) => {
     if (btn_X.classList.contains("active")) {
@@ -155,13 +126,17 @@ const playGame = (function () {
 
     if (activePlayer[0].classList.contains("active")) {
       currentPlayer = playerInfo.getPlayer1().marker;
+      // ai.test();
       turnIndicator();
-      return currentPlayer;
+      // return currentPlayer;
     } else {
       currentPlayer = playerInfo.getPlayer2().marker;
+      // ai.test();
       turnIndicator();
-      return currentPlayer;
+
+      // return currentPlayer;
     }
+    return currentPlayer;
   };
   //Used to indicate who's turn it is.
   const turnIndicator = () => {
@@ -170,6 +145,7 @@ const playGame = (function () {
   };
 
   const whoGoesFirst = () => {
+    displayController.resetBoard();
     const flipCoin = document.getElementById("flipCoin");
     flipCoin.classList.add("rotate");
     setTimeout(() => {
@@ -180,15 +156,18 @@ const playGame = (function () {
     const playerArray = [player1, player2];
     let randomPlayer =
       playerArray[Math.floor(Math.random() * playerArray.length)];
-    console.log(randomPlayer);
+
     if (randomPlayer.classList.contains("active")) {
     } else if (!checkForWinner.checkWinner()) {
-      turnIndicator();
+      takeTurns();
+      if (activePlayer[1].classList.contains("active")) {
+        ai.test();
+      }
     }
   };
 
   btn_whosFirst.addEventListener("click", whoGoesFirst);
-  return { takeTurns };
+  return { takeTurns, activePlayer };
 })();
 
 //Check for winner.
@@ -272,6 +251,7 @@ const startup_modal = (function () {
     onePlayer_modal.style.visibility = "hidden";
     modal.style.visibility = "hidden";
     playerInfo.playerSetup(p1, "A.I.");
+    displayController.markBox();
   };
 
   const addNames = () => {
@@ -281,6 +261,7 @@ const startup_modal = (function () {
     modal.style.visibility = "hidden";
     p2Avatar.setAttribute("src", "../images/player2.png");
     playerInfo.playerSetup(p1, p2);
+    displayController.markBox();
   };
 
   const skip = () => {
@@ -299,6 +280,44 @@ const startup_modal = (function () {
   return { addNames };
 })();
 
+const ai = (function () {
+  // playerArray[Math.floor(Math.random() * playerArray.length)];
+
+  const test = () => {
+    const openBox = [];
+    let aimarker;
+    if (playerInfo.getPlayer2().name === "A.I.") {
+      for (let i = 0; i < gameBoard.boxes.length; i++) {
+        const box = gameBoard.boxes[i];
+        if (box.innerHTML === "") {
+          console.log(box.innerHTML);
+          openBox.push(box.id);
+        }
+      }
+
+      if (checkForWinner.checkWinner() === undefined) {
+        aimarker = openBox[Math.floor(Math.random() * openBox.length)];
+        console.log(openBox);
+        console.log(aimarker);
+        console.log(gameBoard.draw());
+        let test2 = document.getElementById(aimarker);
+        const click_event = new CustomEvent("click", { once: true });
+        console.log(test2);
+        test2.dispatchEvent(click_event);
+        // test2.innerHTML = playGame.takeTurns();
+        // console.log(checkForWinner.checkWinner());
+        // displayController.addWins();
+        // if (checkForWinner.checkWinner() === undefined) {
+        //   gameBoard.draw();
+        // }
+      }
+      // playGame.takeTurns();
+    }
+  };
+
+  return { test };
+})();
+
 //Display Controller
 const displayController = (function () {
   const btn_resetBoard = document.querySelector(".clearBoard");
@@ -309,22 +328,28 @@ const displayController = (function () {
   const markBox = () => {
     for (let i = 0; i < gameBoard.boxes.length; i++) {
       const box = gameBoard.boxes[i];
-
-      box.addEventListener("click", () => {
+      const multiplayer = () => {
         if (
           checkForWinner.checkWinner() === undefined &&
           box.innerHTML === ""
         ) {
           box.innerHTML = playGame.takeTurns();
+          if (playGame.activePlayer[1].classList.contains("active")) {
+            setTimeout(() => {
+              ai.test();
+            }, 800);
+          }
           console.log(checkForWinner.checkWinner());
           addWins();
+
           if (checkForWinner.checkWinner() === undefined) {
             gameBoard.draw();
           }
         } else {
           console.log(checkForWinner.checkWinner());
         }
-      });
+      };
+      box.addEventListener("click", multiplayer);
     }
   };
   const addWins = () => {
@@ -344,6 +369,11 @@ const displayController = (function () {
       const box = boxes[i];
       box.innerHTML = "";
     }
+    console.log(playGame.activePlayer[0].classList.contains("active"));
+    if (playGame.activePlayer[0].classList.contains("active")) {
+    } else {
+      ai.test();
+    }
   };
   const resetWins = () => {
     p1Wins.innerHTML = 0;
@@ -351,6 +381,7 @@ const displayController = (function () {
   };
   btn_resetGame.addEventListener("click", resetWins);
   btn_resetBoard.addEventListener("click", resetBoard);
-  markBox();
+  // markBox();
+  return { markBox, addWins, resetBoard };
   // startup_modal.hidden();
 })();
